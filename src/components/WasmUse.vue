@@ -19,6 +19,7 @@ const fuc = ref()
 const wasmFetch = (): void => {
   if (fuc.value) {
     res.value = fuc.value.add(a.value, b.value)
+    console.log(fuc.value)
   }
 }
 watch(() => [a.value, b.value], () => {
