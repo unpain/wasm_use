@@ -1,10 +1,9 @@
-let wasm: WebAssembly.Exports | undefined
-const useWasm = (url: string) => {
-  if (!wasm) {
+import { type Ref } from 'vue'
+const useWasm = (url: string, target: Ref) => {
+  if (!target.value) {
     WebAssembly.instantiateStreaming(fetch(url)).then((obj: WebAssembly.WebAssemblyInstantiatedSource) => {
-      wasm = obj.instance.exports
+      target.value = obj.instance.exports
     })
   }
-  return wasm
 }
 export { useWasm }
