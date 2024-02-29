@@ -7,6 +7,7 @@
 </template>
 <script setup lang="ts">
 import { ref, watch } from 'vue'
+import { useWasm } from '@/hooks/useWasm'
 const a = ref(0)
 const b = ref(0)
 const res = ref(0)
@@ -16,16 +17,8 @@ const fuc = ref()
  * 本方法使用js的WebAssembly.instantiateStreaming api取出由rust语言编写并构建的wasm文件中的方法并调用该方法
  */
 const wasmFetch = (): void => {
-  if (fuc.value) {
-    const out = fuc.value(a.value, b.value)
-    res.value = out;
-  } else {
-    WebAssembly.instantiateStreaming(fetch("/public/world_hello_bg.wasm")).then((obj: WebAssembly.WebAssemblyInstantiatedSource) => {
-      fuc.value = obj.instance.exports.add
-      const out = fuc.value(a.value, b.value)
-      res.value = out;
-    })
-  }
+  fuc.value = useWasm('/wasm_build/pkg/wasm_build_bg.wasm')
+  res.value = fuc.value.add(a.value, b.value)
 }
 watch(() => [a.value, b.value], () => {
   wasmFetch()

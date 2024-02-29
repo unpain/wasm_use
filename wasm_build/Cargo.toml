@@ -1,5 +1,5 @@
 [package]
-name = "world_hello"
+name = "wasm-build"
 version = "0.1.0"
 edition = "2021"
 
@@ -7,7 +7,6 @@ edition = "2021"
 
 [lib]
 crate-type = ["cdylib", "rlib"]
-path = "src/main.rs" # 这个路径得有 用于包wasm
 
 [dependencies]
 wasm-bindgen = "0.2.83"
